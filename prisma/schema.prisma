@@ -57,11 +57,13 @@ model FamousSpot {
 }
 
 model Testimonial {
-  id        String   @id @default(cuid())
-  name      String
-  message   String
-  rating    Int // 1-5
-  imageUrl  String?
-  cityName  String?
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  name       String
+  message    String
+  rating     Int // 1-5
+  imageUrl   String? // small avatar
+  coverImage String? // large trip/group photo shown at the top of the card
+  role       String? // e.g. "CEO, PPM Logistics" or "Frequent Traveller"
+  cityName   String?
+  createdAt  DateTime @default(now())
 }
