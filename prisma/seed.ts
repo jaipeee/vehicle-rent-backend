@@ -13,7 +13,12 @@ const CITIES = [
 
 const VEHICLES = [
   { name: "Sedan", category: "Sedan", seatCapacity: 4, priceFrom: 2500 },
+  { name: "Maruti Suzuki Ertiga", category: "SUV", seatCapacity: 7, priceFrom: 3200 },
   { name: "SUV", category: "SUV", seatCapacity: 6, priceFrom: 4000 },
+  { name: "Toyota Innova Hycross", category: "Luxury Car", seatCapacity: 7, priceFrom: 5000 },
+  { name: "Toyota Innova Crysta", category: "Luxury Car", seatCapacity: 7, priceFrom: 4500 },
+  { name: "Toyota Vellfire", category: "Luxury Van", seatCapacity: 6, priceFrom: 12000 },
+  { name: "Force Urbania", category: "Urbania", seatCapacity: 17, priceFrom: 7000 },
   { name: "Tempo Traveller 12-Seater", category: "Tempo Traveller", seatCapacity: 12, priceFrom: null },
   { name: "Tempo Traveller 17-Seater", category: "Tempo Traveller", seatCapacity: 17, priceFrom: null },
   { name: "Mini Bus", category: "Mini Bus", seatCapacity: 26, priceFrom: null },
@@ -39,6 +44,10 @@ async function main() {
       },
     });
   }
+
+  // Vehicles have no natural unique key to upsert on, so clear and
+  // re-insert each time — safe since nothing else references Vehicle rows.
+  await prisma.vehicle.deleteMany({});
 
   for (const vehicle of VEHICLES) {
     await prisma.vehicle.create({
