@@ -2,13 +2,26 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Placeholder data — replace with your real cities/vehicles once confirmed.
+const CLOUDINARY = "https://res.cloudinary.com/yhuaios0/image/upload";
+
+const CARD_IMAGES: Record<string, string> = {
+  delhi: `${CLOUDINARY}/v1791056116/Delhi_Landmarks_Circular_Emblem.png`,
+  haridwar: `${CLOUDINARY}/v1791056117/Haridwar_Riverside_Ghat_Panorama.png`,
+  amritsar: `${CLOUDINARY}/v1791056118/Golden_Gateway_Cityscape_Emblem.png`,
+  chandigarh: `${CLOUDINARY}/v1791056118/Chandigarh_Open_Hand_Park_Badge.png`,
+  dehradun: `${CLOUDINARY}/v1791056119/Clock_Tower_Amid_Himalayan_Gardens.png`,
+  varanasi: `${CLOUDINARY}/v1791056119/Sunrise_on_the_Sacred_Ghats.png`,
+};
+
+// TODO: add real hero / spot photos per city. Until then the card image is used
+// as the hero image and as every spot image.
 const CITIES = [
   { name: "Delhi", slug: "delhi", spots: ["India Gate", "Qutub Minar", "Red Fort"] },
-  { name: "Mumbai", slug: "mumbai", spots: ["Gateway of India", "Marine Drive", "Juhu Beach"] },
-  { name: "Pune", slug: "pune", spots: ["Shaniwar Wada", "Sinhagad Fort", "Aga Khan Palace"] },
-  { name: "Bangalore", slug: "bangalore", spots: ["Lalbagh", "Bangalore Palace", "Cubbon Park"] },
-  { name: "Hyderabad", slug: "hyderabad", spots: ["Charminar", "Golconda Fort", "Hussain Sagar"] },
+  { name: "Haridwar", slug: "haridwar", spots: ["Har Ki Pauri", "Mansa Devi Temple", "Chandi Devi Temple"] },
+  { name: "Amritsar", slug: "amritsar", spots: ["Golden Temple", "Jallianwala Bagh", "Wagah Border"] },
+  { name: "Chandigarh", slug: "chandigarh", spots: ["Rock Garden", "Sukhna Lake", "Rose Garden"] },
+  { name: "Dehradun", slug: "dehradun", spots: ["Robber's Cave", "Sahastradhara", "Mindrolling Monastery"] },
+  { name: "Varanasi", slug: "varanasi", spots: ["Kashi Vishwanath Temple", "Dashashwamedh Ghat", "Sarnath"] },
 ];
 
 const VEHICLES = [
@@ -27,23 +40,31 @@ const VEHICLES = [
 
 async function main() {
   for (const city of CITIES) {
+    const image = CARD_IMAGES[city.slug];
+    const data = {
+      name: city.name,
+      heroImage: image,
+      cardImage: image,
+      description: `Reliable, comfortable travel across ${city.name} and nearby routes.`,
+    };
+    const spots = city.spots.map((spotName) => ({ name: spotName, imageUrl: image }));
+
     await prisma.city.upsert({
       where: { slug: city.slug },
-      update: {},
-      create: {
-        name: city.name,
-        slug: city.slug,
-        heroImage: "/placeholder/city-hero.jpg",
-        description: `Reliable, comfortable travel across ${city.name} and nearby routes.`,
-        spots: {
-          create: city.spots.map((spotName) => ({
-            name: spotName,
-            imageUrl: "/placeholder/spot.jpg",
-          })),
-        },
-      },
+      // Re-running the seed refreshes existing cities and replaces their spots.
+      update: { ...data, spots: { deleteMany: {}, create: spots } },
+      create: { ...data, slug: city.slug, spots: { create: spots } },
     });
+    console.log(`Seeded city: ${city.name}`);
   }
+
+  // Remove cities that are no longer served (e.g. Mumbai, Pune, Bangalore, Hyderabad).
+  // Their spots are deleted automatically (onDelete: Cascade).
+  // Delete this block if you want to keep any other cities in the database.
+  const removed = await prisma.city.deleteMany({
+    where: { slug: { notIn: CITIES.map((c) => c.slug) } },
+  });
+  console.log(`Removed ${removed.count} old cities`);
 
   // Vehicles have no natural unique key to upsert on, so clear and
   // re-insert each time — safe since nothing else references Vehicle rows.

@@ -17,7 +17,7 @@ export async function sendEnquiryNotification(params: {
     to: env.NOTIFY_EMAIL_TO,
     subject: `New enquiry from ${params.name}`,
     html: `
-      <h2>New Enquiry — Indiventure Tour & Travel</h2>
+      <h2>New Enquiry — Indiventra Tour & Travel</h2>
       <p><strong>Name:</strong> ${params.name}</p>
       <p><strong>Phone:</strong> ${params.phone}</p>
       <p><strong>Email:</strong> ${params.email ?? "-"}</p>

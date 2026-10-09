@@ -38,15 +38,16 @@ model Vehicle {
   createdAt     DateTime @default(now())
 }
 
-model City {
-  id          String       @id @default(cuid())
-  name        String
-  slug        String       @unique
-  heroImage   String
-  description String
-  spots       FamousSpot[]
-  createdAt   DateTime     @default(now())
-}
+   model City {
+     id          String       @id @default(cuid())
+     name        String
+     slug        String       @unique
+     heroImage   String
+     cardImage   String?      // image shown on the cities grid card
+     description String
+     spots       FamousSpot[]
+     createdAt   DateTime     @default(now())
+   }
 
 model FamousSpot {
   id       String @id @default(cuid())
