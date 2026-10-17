@@ -67,4 +67,68 @@ model Testimonial {
   role       String? // e.g. "CEO, PPM Logistics" or "Frequent Traveller"
   cityName   String?
   createdAt  DateTime @default(now())
+  categorySlug String? 
+}
+model PageContent {
+  id              String   @id @default(cuid())
+  // "" = not specific. ("","") = global default, ("delhi","") = city,
+  // ("","mini-bus") = vehicle, ("delhi","mini-bus") = both.
+  citySlug        String   @default("")
+  categorySlug    String   @default("")
+  heroImage       String?
+  heroHeading     String?
+  heroSubheading  String?
+  aboutVideoId    String?
+  aboutVideoTitle String?
+  aboutLeft       String?
+  aboutRight      String?
+  aboutBottom     String[]
+  fleetSubtitle   String?
+  updatedAt       DateTime @updatedAt
+
+  @@unique([citySlug, categorySlug])
+}
+
+model BlogPost {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  excerpt      String
+  tag          String
+  image        String
+  citySlug     String   @default("")
+  categorySlug String   @default("")
+  publishedAt  DateTime @default(now())
+}
+
+model HeroSlide {
+  id           String   @id @default(cuid())
+  citySlug     String   @default("")
+  categorySlug String   @default("")
+  image        String
+  heading      String
+  subheading   String
+  sortOrder    Int      @default(0)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  @@index([citySlug, categorySlug])
+}
+
+model FleetItem {
+  id               String   @id @default(cuid())
+  citySlug         String   @default("")
+  categorySlug     String   @default("")
+  title            String
+  subtitle         String
+  description      String
+  vehicleImage     String
+  images           String[]
+  amenities        Json     @default("[]")
+  linkCategorySlug String   @default("") // category page the card's arrow opens
+  sortOrder        Int      @default(0)
+  active           Boolean  @default(true)
+  createdAt        DateTime @default(now())
+
+  @@index([citySlug, categorySlug])
 }

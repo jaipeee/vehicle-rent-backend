@@ -11,6 +11,7 @@ const CARD_IMAGES: Record<string, string> = {
   chandigarh: `${CLOUDINARY}/v1791056118/Chandigarh_Open_Hand_Park_Badge.png`,
   dehradun: `${CLOUDINARY}/v1791056119/Clock_Tower_Amid_Himalayan_Gardens.png`,
   varanasi: `${CLOUDINARY}/v1791056119/Sunrise_on_the_Sacred_Ghats.png`,
+  mumbai: `${CLOUDINARY}/v1791056119/group-cars-_E2_80_A6ylish-reliable-honda-cars_1101683-2406.jpg`,
 };
 
 // TODO: add real hero / spot photos per city. Until then the card image is used
@@ -22,6 +23,8 @@ const CITIES = [
   { name: "Chandigarh", slug: "chandigarh", spots: ["Rock Garden", "Sukhna Lake", "Rose Garden"] },
   { name: "Dehradun", slug: "dehradun", spots: ["Robber's Cave", "Sahastradhara", "Mindrolling Monastery"] },
   { name: "Varanasi", slug: "varanasi", spots: ["Kashi Vishwanath Temple", "Dashashwamedh Ghat", "Sarnath"] },
+   { name: "Mumbai", slug: "mumbai", spots: ["Gateway of India", "Marine Drive", "Juhu Beach"] },
+  
 ];
 
 const VEHICLES = [
@@ -37,6 +40,28 @@ const VEHICLES = [
   { name: "Mini Bus", category: "Mini Bus", seatCapacity: 26, priceFrom: null },
   { name: "Luxury Bus", category: "Luxury Bus", seatCapacity: 40, priceFrom: null },
 ];
+
+const content = [
+  {
+    citySlug: "", categorySlug: "",
+    aboutVideoId: "MVYRGxM7NtU",
+    aboutVideoTitle: "Indiventra | Vehicle Rental",
+    aboutLeft: "Indiventra is a leading vehicle rental provider in {city}, delivering reliable and comfortable {category} rental solutions since 2018.",
+    aboutRight: "Our fleet in {city} matches every requirement, from premium cars to luxury buses.",
+    aboutBottom: ["We serve individuals, families, businesses and large groups in {city}."],
+    fleetSubtitle: "Pick the right vehicle for your group in {city}.",
+  },
+  { citySlug: "delhi", categorySlug: "", heroSubheading: "Airport transfers, weddings and Rajasthan-bound trips, all from Delhi." },
+  { citySlug: "", categorySlug: "mini-bus", aboutVideoId: "YOUR_MINIBUS_VIDEO_ID" },
+  { citySlug: "delhi", categorySlug: "mini-bus", heroHeading: "Mini Bus on Rent in Delhi" },
+];
+for (const c of content) {
+  await prisma.pageContent.upsert({
+    where: { citySlug_categorySlug: { citySlug: c.citySlug, categorySlug: c.categorySlug } },
+    update: c,
+    create: c,
+  });
+}
 
 async function main() {
   for (const city of CITIES) {
