@@ -89,6 +89,7 @@ const RESOURCES: Record<string, Resource> = {
       aboutVideoId: "optString", aboutVideoTitle: "optString",
       aboutLeft: "optString", aboutRight: "optString", aboutBottom: "strings",
       fleetSubtitle: "optString",
+      servicesTitleAccent: "optString", servicesTitle: "optString", servicesSubheading: "optString",
     },
   },
   blogs: {
@@ -141,6 +142,15 @@ const RESOURCES: Record<string, Resource> = {
       citySlug: "slug", categorySlug: "slug", linkCategorySlug: "slug",
       title: "string", subtitle: "string", description: "string",
       vehicleImage: "string", images: "strings", amenities: "amenities",
+      sortOrder: "intDefault", active: "bool",
+    },
+  },
+    "service-cards": {
+    delegate: prisma.serviceCard,
+    orderBy: [{ citySlug: "asc" }, { categorySlug: "asc" }, { sortOrder: "asc" }],
+    fields: {
+      citySlug: "slug", categorySlug: "slug",
+      occasion: "string", title: "string", description: "string", image: "string",
       sortOrder: "intDefault", active: "bool",
     },
   },

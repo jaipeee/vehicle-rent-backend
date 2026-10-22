@@ -86,6 +86,9 @@ model PageContent {
   aboutBottom     String[]
   fleetSubtitle   String?
   updatedAt       DateTime @updatedAt
+    servicesTitleAccent String?
+  servicesTitle       String?
+  servicesSubheading  String?
 
   @@unique([citySlug, categorySlug])
 }
@@ -130,6 +133,20 @@ model FleetItem {
   sortOrder        Int      @default(0)
   active           Boolean  @default(true)
   createdAt        DateTime @default(now())
+
+  @@index([citySlug, categorySlug])
+}
+model ServiceCard {
+  id           String   @id @default(cuid())
+  citySlug     String   @default("")
+  categorySlug String   @default("")
+  occasion     String   // tab name, e.g. "Wedding Travel"
+  title        String
+  description  String
+  image        String
+  sortOrder    Int      @default(0)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
 
   @@index([citySlug, categorySlug])
 }

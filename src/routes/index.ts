@@ -7,11 +7,11 @@ import uploadRoutes from "../modules/upload/upload.route";
 import pageContentRoutes from "../modules/page-content/page-content.route";
 import blogRoutes from "../modules/blog/blog.route";
 import adminRoutes, { requireAdmin } from "../modules/admin/admin.route";
-import { heroRouter, fleetRouter } from "../modules/scoped-content/scoped-content.route";
+import { heroRouter, fleetRouter, servicesRouter } from "../modules/scoped-content/scoped-content.route";
 
 
 const router = Router();
-
+router.use("/service-cards", servicesRouter);
 router.use("/enquiries", enquiryRoutes);
 router.use("/vehicles", vehicleRoutes);
 router.use("/cities", cityRoutes);

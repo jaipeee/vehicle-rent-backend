@@ -45,3 +45,12 @@ fleetRouter.get(
     res.status(200).json(apiResponse(picked));
   })
 );
+
+export const servicesRouter = Router();
+servicesRouter.get(
+  "/",
+  asyncHandler(async (req: Request, res: Response) => {
+    const rows = await prisma.serviceCard.findMany({ where: { active: true }, orderBy: order });
+    res.status(200).json(apiResponse(pickGroup(rows, q(req.query.city), q(req.query.category))));
+  })
+);
