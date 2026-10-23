@@ -26,7 +26,7 @@ router.post(
     }
 
     const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream({ folder: "indiventure" }, (error, uploadResult) => {
+      const stream = cloudinary.uploader.upload_stream({ folder: "indiventra" }, (error, uploadResult) => {
         if (error || !uploadResult) return reject(error ?? new Error("Upload failed"));
         resolve(uploadResult);
       });
