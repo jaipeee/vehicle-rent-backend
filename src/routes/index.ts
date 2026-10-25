@@ -16,14 +16,13 @@ router.use("/enquiries", enquiryRoutes);
 router.use("/vehicles", vehicleRoutes);
 router.use("/cities", cityRoutes);
 router.use("/testimonials", testimonialRoutes);
-router.use("/upload", uploadRoutes);
 router.use("/page-content", pageContentRoutes);
 router.use("/blogs", blogRoutes);
 router.use("/admin", adminRoutes);
 // Recommended: only admins can upload images
-router.use("/upload", requireAdmin, uploadRoutes); // replace your existing /upload line
+router.use("/upload", requireAdmin, uploadRoutes); 
 router.use("/hero-slides", heroRouter);
 router.use("/fleet", fleetRouter);
-router.use("/faqs", faqRouter);
+router.use("/faqs", faqRouter);    
 
 export default router;
