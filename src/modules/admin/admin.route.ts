@@ -153,7 +153,8 @@ const RESOURCES: Record<string, Resource> = {
       occasion: "string", title: "string", description: "string", image: "string",
       sortOrder: "intDefault", active: "bool",
     },
-  },  faqs: {
+  },  
+  faqs: {
     delegate: prisma.faqItem,
     orderBy: [{ citySlug: "asc" }, { categorySlug: "asc" }, { sortOrder: "asc" }],
     fields: {
