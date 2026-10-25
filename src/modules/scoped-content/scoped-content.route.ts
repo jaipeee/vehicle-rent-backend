@@ -54,3 +54,12 @@ servicesRouter.get(
     res.status(200).json(apiResponse(pickGroup(rows, q(req.query.city), q(req.query.category))));
   })
 );
+
+export const faqRouter = Router();
+faqRouter.get(
+  "/",
+  asyncHandler(async (req: Request, res: Response) => {
+    const rows = await prisma.faqItem.findMany({ where: { active: true }, orderBy: order });
+    res.status(200).json(apiResponse(pickGroup(rows, q(req.query.city), q(req.query.category))));
+  })
+);

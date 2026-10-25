@@ -7,7 +7,7 @@ import uploadRoutes from "../modules/upload/upload.route";
 import pageContentRoutes from "../modules/page-content/page-content.route";
 import blogRoutes from "../modules/blog/blog.route";
 import adminRoutes, { requireAdmin } from "../modules/admin/admin.route";
-import { heroRouter, fleetRouter, servicesRouter } from "../modules/scoped-content/scoped-content.route";
+import { heroRouter, fleetRouter, servicesRouter, faqRouter } from "../modules/scoped-content/scoped-content.route";
 
 
 const router = Router();
@@ -24,5 +24,6 @@ router.use("/admin", adminRoutes);
 router.use("/upload", requireAdmin, uploadRoutes); // replace your existing /upload line
 router.use("/hero-slides", heroRouter);
 router.use("/fleet", fleetRouter);
+router.use("/faqs", faqRouter);
 
 export default router;
